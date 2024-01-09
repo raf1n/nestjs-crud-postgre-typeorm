@@ -35,4 +35,20 @@ export class UsersController {
   async create(@Body() user: User): Promise<User> {
     return await this.usersService.create(user);
   }
+
+  @Put(':id')
+  async update(@Param(':id') id: number, @Body() user: User): Promise<User> {
+    return this.usersService.update(id, user);
+  }
+
+  @Delete(':id')
+  async delete(@Param(':id') id: number): Promise<User> {
+    const user = await this.usersService.findOne(id);
+
+    if (!user) {
+      throw new Error('User Not found!');
+    } else {
+      return await this.usersService.delete(id);
+    }
+  }
 }
